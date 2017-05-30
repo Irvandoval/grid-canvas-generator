@@ -11,6 +11,8 @@
  * @param {number} options.xMargin - horizontal margin between canvas and grid
  * @param {number} options.yMargin - vertical margin between columns canvas and grid
  * @param {boolean} options.centered - center grid
+ * @param {number} options.canvasWidth - Width of canvas element
+ * @param {number} options.canvasHeight - Width of canvas element
  */
 function generateCanvas(canvasId, options) {
     console.log(options);
@@ -18,6 +20,8 @@ function generateCanvas(canvasId, options) {
     var ctx = c.getContext("2d");
     var xPosition;
     var yPosition;
+
+    clearCanvas (ctx, {width: options.canvasWidth, height:options.canvasHeight});
 
     for (var i = 0; i < options.columns; i++) {
         for (var j = 0; j < options.rows; j++) {
@@ -29,16 +33,9 @@ function generateCanvas(canvasId, options) {
     }
 }
 
- /**variables
-    var cellWidth = 60;
-    var cellHeight = 100;
-    var rows = 5;
-    var columns = 8;
-    var marginColumn = 10;
-    var marginRow = 5;
-    var canvasMargin = 10;
-    var rowMargin = 5;
-    var columnMargin = 10;
-    var xPosition;
-    var yPosition;
-    /******************/
+function clearCanvas(context, canvas) {
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  var w = canvas.width;
+  canvas.width = 1;
+  canvas.width = w;
+}
