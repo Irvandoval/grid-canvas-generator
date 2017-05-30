@@ -9,7 +9,7 @@
  * @param {number} options.rowMargin - margin between rows
  * @param {number} options.colMargin - margin between columns
  * @param {number} options.xMargin - horizontal margin between canvas and grid
- * @param {number} options.yMargin - vertical margin between columns canvas and grid
+ * @param {number} options.yMargin - vertical margin between canvas and grid
  * @param {boolean} options.centered - center grid
  * @param {number} options.canvasWidth - Width of canvas element
  * @param {number} options.canvasHeight - Width of canvas element
@@ -25,16 +25,16 @@ function generateCanvas(canvasId, options) {
     if (options.centered) {
         var auxposx = (options.canvasWidth - ((options.columns * options.cellWidth) + (options.columns * options.colMargin))) / 2;
         var auxposy = (options.canvasHeight - ((options.rows * options.cellHeight) + (options.rows * options.rowMargin))) / 2;
-        options.xMargin = auxposx;
-        options.yMargin = auxposy;
+        if(options.columns > 1)  options.xMargin = auxposx;
+        if(options.rows > 1) options.yMargin = auxposy;
     }
 
     clearCanvas(ctx, { width: options.canvasWidth, height: options.canvasHeight });
 
     for (var i = 0; i < options.columns; i++) {
         for (var j = 0; j < options.rows; j++) {
-            xPosition = (options.xMargin || 0) + (i * (options.cellWidth + options.rowMargin));
-            yPosition = (options.yMargin || 0) + (j * (options.cellHeight + options.colMargin));
+            xPosition = (options.xMargin || 0) + (i * (options.cellWidth + options.colMargin));
+            yPosition = (options.yMargin || 0) + (j * (options.cellHeight + options.rowMargin));
             ctx.rect(xPosition, yPosition, options.cellWidth, options.cellHeight);
             ctx.stroke();
         }
@@ -46,4 +46,13 @@ function clearCanvas(context, canvas) {
     var w = canvas.width;
     canvas.width = 1;
     canvas.width = w;
+    context.beginPath();
+}
+
+function drawVerticalMargins(ctx, canvas, margin) {
+    ctx.setLineDash([5, 3]);/*dashes are 5px and spaces are 3px*/
+    ctx.beginPath();
+    ctx.moveTo(0, 100);
+    ctx.lineTo(400, 100);
+    ctx.stroke();
 }

@@ -1,30 +1,131 @@
 <!DOCTYPE html>
 <html>
 
+<head>
+    <title>Ejemplo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
 <body>
-    <button onclick="generarGrid()" style="background-color: #E91E63; color: white; font-size: 30px; position: absolute; top: 0px">Generar Grid</button>
-    <canvas id="myCanvas" width="800" height="800" style="border:1px solid #d3d3d3; margin-top: 100px">
-Your browser does not support the HTML5 canvas tag.</canvas>
+    <div class="container">
+        <h2 class="text-center">Ejemplo</h2>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Producto</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="form-group col-xs-6">
+                                <label for="">Largo</label>
+                                <input id="cellWidth" class="form-control" type="number" min="1" />
+                            </div>
+                            <div class="form-group col-xs-6">
+                                <label for="">Ancho</label>
+                                <input id="cellHeight" class="form-control" type="number" min="0" />
+                            </div>
+                            <div class="form-group col-xs-6">
+                                <label for="">Margen entre Columnas</label>
+                                <input id="colMargin" class="form-control" type="number" min="0" />
+                            </div>
+                            <div class="form-group col-xs-6">
+                                <label for="">Margen entre Filas</label>
+                                <input id="rowMargin" class="form-control" type="number" min="1" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Canvas</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="form-group col-xs-6">
+                                <label for="">Largo</label>
+                                <input id="canvasWidth" class="form-control" type="number" min="1" />
+                            </div>
+                            <div class="form-group col-xs-6">
+                                <label for="">Ancho</label>
+                                <input id="canvasHeight" class="form-control" type="number" min="1" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-danger">
+                    <div class="panel-heading">Dibujar</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="form-group col-xs-4">
+                                <label for="">Filas</label>
+                                <input id="rows" class="form-control" type="number" min="1" />
+                            </div>
+                            <div class="form-group col-xs-4">
+                                <label for="">Columnas</label>
+                                <input id="columns" class="form-control" type="number" min="1" />
+                            </div>
+                            <div class="form-group col-xs-4">
+                                <label for="">Cabida</label>
+                                <input class="form-control" type="number" readonly/>
+                            </div>
+                            <div class="form-group col-xs-12">
+                                <label for="">Centrar</label> <input id="centered" type="checkbox">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-success btn-lg" onclick="generarGrid()">Generar</button>
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+
+                    </div>
+                    <div class="col-md-12">
+
+                        <canvas id="myCanvas" width="800" height="500" style="border:1px solid #d3d3d3;">
+                            Your browser does not support the HTML5 canvas tag.</canvas>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="./grid-canvas.js"></script>
     <script>
+        function setCanvasSize() {
+            var canvas = document.getElementById("myCanvas");
+            canvas.width = parseInt(document.getElementById('canvasWidth').value);
+            canvas.height = parseInt(document.getElementById('canvasHeight').value);
+        }
         function generarGrid() {
-            var opciones = {
-                cellWidth: 60,
-                cellHeight: 100,
-                rows: 6,
-                columns: 8,
-                colMargin: 5,
-                rowMargin: 5,
+            var opciones = {};
+             opciones = {
+                cellWidth: parseInt(document.getElementById('cellWidth').value),
+                cellHeight: parseInt(document.getElementById('cellHeight').value),
+                rows: parseInt(document.getElementById('rows').value),
+                columns: parseInt(document.getElementById('columns').value),
+                colMargin: parseInt(document.getElementById('colMargin').value),
+                rowMargin: parseInt(document.getElementById('rowMargin').value),
                 canvasMargin: 10,
-                rowMargin: 5,
-                columnMargin: 10,
-                xMargin: 5,
-                yMargin: 5,
-                canvasWidth: 800,
-                canvasHeight: 800,
-                centered: true
+                canvasWidth: parseInt(document.getElementById('canvasWidth').value),
+                canvasHeight: parseInt(document.getElementById('canvasHeight').value),
+                centered: $('#centered:checked').val()
             }
 
+
+            console.log(opciones)
+            setCanvasSize();
             generateCanvas('myCanvas', opciones);
 
         }
