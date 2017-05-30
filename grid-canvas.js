@@ -21,7 +21,15 @@ function generateCanvas(canvasId, options) {
     var xPosition;
     var yPosition;
 
-    clearCanvas (ctx, {width: options.canvasWidth, height:options.canvasHeight});
+
+    if (options.centered) {
+        var auxposx = (options.canvasWidth - ((options.columns * options.cellWidth) + (options.columns * options.colMargin))) / 2;
+        var auxposy = (options.canvasHeight - ((options.rows * options.cellHeight) + (options.rows * options.rowMargin))) / 2;
+        options.xMargin = auxposx;
+        options.yMargin = auxposy;
+    }
+
+    clearCanvas(ctx, { width: options.canvasWidth, height: options.canvasHeight });
 
     for (var i = 0; i < options.columns; i++) {
         for (var j = 0; j < options.rows; j++) {
@@ -34,8 +42,8 @@ function generateCanvas(canvasId, options) {
 }
 
 function clearCanvas(context, canvas) {
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  var w = canvas.width;
-  canvas.width = 1;
-  canvas.width = w;
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    var w = canvas.width;
+    canvas.width = 1;
+    canvas.width = w;
 }

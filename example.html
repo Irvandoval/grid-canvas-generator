@@ -1,32 +1,34 @@
 <!DOCTYPE html>
 <html>
+
 <body>
-<button onclick="generarGrid()" 
-style="background-color: #E91E63; color: white; font-size: 30px; position: absolute; top: 0px">Generar Grid</button>
-<canvas id="myCanvas" width="800" height="800" style="border:1px solid #d3d3d3; margin-top: 100px">
+    <button onclick="generarGrid()" style="background-color: #E91E63; color: white; font-size: 30px; position: absolute; top: 0px">Generar Grid</button>
+    <canvas id="myCanvas" width="800" height="800" style="border:1px solid #d3d3d3; margin-top: 100px">
 Your browser does not support the HTML5 canvas tag.</canvas>
-<script src="./grid-canvas.js"></script>
-<script>
-    function generarGrid(){
-        var opciones = {
-            cellWidth: 60,
-            cellHeight: 100,
-            rows: 5,
-            columns: 8,
-            colMargin: 10,
-            rowMargin: 5,
-            canvasMargin: 10,
-            rowMargin: 5,
-            columnMargin: 10,
-            xMargin: 5,
-            yMargin: 5,
-            canvasWidth: 800,
-            canvasHeight: 800
+    <script src="./grid-canvas.js"></script>
+    <script>
+        function generarGrid() {
+            var opciones = {
+                cellWidth: 60,
+                cellHeight: 100,
+                rows: 6,
+                columns: 8,
+                colMargin: 5,
+                rowMargin: 5,
+                canvasMargin: 10,
+                rowMargin: 5,
+                columnMargin: 10,
+                xMargin: 5,
+                yMargin: 5,
+                canvasWidth: 800,
+                canvasHeight: 800,
+                centered: true
+            }
+
+            generateCanvas('myCanvas', opciones);
+
         }
-
-        generateCanvas('myCanvas', opciones);
-
-    }
-</script>
+    </script>
 </body>
+
 </html>
