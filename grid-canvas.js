@@ -25,8 +25,8 @@ function generateCanvas(canvasId, options) {
     if (options.centered) {
         var auxposx = (options.canvasWidth - ((options.columns * options.cellWidth) + (options.columns * options.colMargin))) / 2;
         var auxposy = (options.canvasHeight - ((options.rows * options.cellHeight) + (options.rows * options.rowMargin))) / 2;
-        if(options.columns > 1)  options.xMargin = auxposx;
-        if(options.rows > 1) options.yMargin = auxposy;
+        options.xMargin = auxposx;
+        options.yMargin = auxposy;
     }
 
     clearCanvas(ctx, { width: options.canvasWidth, height: options.canvasHeight });
