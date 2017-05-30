@@ -111,15 +111,15 @@
         function generarGrid() {
             var opciones = {};
              opciones = {
-                cellWidth: parseInt(document.getElementById('cellWidth').value),
-                cellHeight: parseInt(document.getElementById('cellHeight').value),
+                cellWidth: parseFloat(document.getElementById('cellWidth').value),
+                cellHeight: parseFloat(document.getElementById('cellHeight').value),
                 rows: parseInt(document.getElementById('rows').value),
                 columns: parseInt(document.getElementById('columns').value),
-                colMargin: parseInt(document.getElementById('colMargin').value),
-                rowMargin: parseInt(document.getElementById('rowMargin').value),
+                colMargin: parseFloat(document.getElementById('colMargin').value),
+                rowMargin: parseFloat(document.getElementById('rowMargin').value),
                 canvasMargin: 10,
-                canvasWidth: parseInt(document.getElementById('canvasWidth').value),
-                canvasHeight: parseInt(document.getElementById('canvasHeight').value),
+                canvasWidth: parseFloat(document.getElementById('canvasWidth').value),
+                canvasHeight: parseFloat(document.getElementById('canvasHeight').value),
                 centered: $('#centered:checked').val()
             }
 
