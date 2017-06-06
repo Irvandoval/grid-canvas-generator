@@ -18,19 +18,19 @@
                         <div class="row">
                             <div class="form-group col-xs-6">
                                 <label for="">Largo</label>
-                                <input id="cellWidth" class="form-control" type="number" min="1" />
+                                <input id="cellWidth" class="form-control" type="number" min="1" onchange="enviar()"/>
                             </div>
                             <div class="form-group col-xs-6">
                                 <label for="">Ancho</label>
-                                <input id="cellHeight" class="form-control" type="number" min="0" />
+                                <input id="cellHeight" class="form-control" type="number" min="0"  onchange="enviar()"/>
                             </div>
                             <div class="form-group col-xs-6">
                                 <label for="">Margen entre Columnas</label>
-                                <input id="colMargin" class="form-control" type="number" min="0" />
+                                <input id="colMargin" class="form-control" type="number" min="0"  onchange="enviar()"/>
                             </div>
                             <div class="form-group col-xs-6">
                                 <label for="">Margen entre Filas</label>
-                                <input id="rowMargin" class="form-control" type="number" min="1" />
+                                <input id="rowMargin" class="form-control" type="number" min="1" onchange="enviar()"/>
                             </div>
                         </div>
                     </div>
@@ -41,11 +41,11 @@
                         <div class="row">
                             <div class="form-group col-xs-6">
                                 <label for="">Largo</label>
-                                <input id="canvasWidth" class="form-control" type="number" min="1" />
+                                <input id="canvasWidth" class="form-control" type="number" min="1" onchange="enviar()"/>
                             </div>
                             <div class="form-group col-xs-6">
                                 <label for="">Ancho</label>
-                                <input id="canvasHeight" class="form-control" type="number" min="1" />
+                                <input id="canvasHeight" class="form-control" type="number" min="1" onchange="enviar()"/>
                             </div>
                         </div>
                     </div>
@@ -56,24 +56,23 @@
                         <div class="row">
                             <div class="form-group col-xs-4">
                                 <label for="">Filas</label>
-                                <input id="rows" class="form-control" type="number" min="1" />
+                                <input id="rows" class="form-control" type="number" min="1" onchange="enviar()"/>
                             </div>
                             <div class="form-group col-xs-4">
                                 <label for="">Columnas</label>
-                                <input id="columns" class="form-control" type="number" min="1" />
+                                <input id="columns" class="form-control" type="number" min="1" onchange="enviar()"/>
                             </div>
                             <div class="form-group col-xs-4">
                                 <label for="">Cabida</label>
-                                <input class="form-control" type="number" readonly/>
+                                <input id="cabida" class="form-control" type="number" readonly/>
                             </div>
                             <div class="form-group col-xs-12">
-                                <label for="">Centrar</label> <input id="centered" type="checkbox">
+                                <label for="">Centrar</label> <input id="centered" type="checkbox" onchange="enviar()" />
                             </div>
 
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-success btn-lg" onclick="generarGrid()">Generar</button>
             </div>
             <div class="col-md-9">
                 <div class="row">
@@ -103,6 +102,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="./grid-canvas.js"></script>
     <script>
+        var SELECTORS_STR = '#cellWidth, #cellHeight, #rows, #columns, #colMargin, #canvasWidth,' +
+            '#canvasHeight, #centered';
+
+        function enviar() {
+            setCabida();
+            generarGrid();
+        };
         function setCanvasSize() {
             var canvas = document.getElementById("myCanvas");
             canvas.width = parseInt(document.getElementById('canvasWidth').value);
@@ -110,7 +116,7 @@
         }
         function generarGrid() {
             var opciones = {};
-             opciones = {
+            opciones = {
                 cellWidth: parseFloat(document.getElementById('cellWidth').value),
                 cellHeight: parseFloat(document.getElementById('cellHeight').value),
                 rows: parseInt(document.getElementById('rows').value),
@@ -123,11 +129,14 @@
                 centered: $('#centered:checked').val()
             }
 
-
-            console.log(opciones)
             setCanvasSize();
             generateCanvas('myCanvas', opciones);
+        }
 
+        function setCabida() {
+            if (parseFloat(document.getElementById('rows').value) && parseInt(document.getElementById('columns').value)) {
+                $('#cabida').val(parseInt(document.getElementById('rows').value * parseInt(document.getElementById('columns').value)));
+            }
         }
     </script>
 </body>

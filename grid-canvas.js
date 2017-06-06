@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Generates a grid of rectangles based on options
  * @param {string} canvasId - id of canvas html element 
@@ -20,25 +22,28 @@ function generateCanvas(canvasId, options) {
     var ctx = c.getContext("2d");
     var xPosition;
     var yPosition;
+    
+    if (isAllSet(options)) {
+        console.info("entrA");
+        if (options.centered) {
+            var auxposx = (options.canvasWidth - ((options.columns * options.cellWidth) + ((options.columns - 1) * options.colMargin))) / 2;
+            var auxposy = (options.canvasHeight - ((options.rows * options.cellHeight) + ((options.rows - 1) * options.rowMargin))) / 2;
+            options.xMargin = auxposx;
+            options.yMargin = auxposy;
+        }
 
+        clearCanvas(ctx, { width: options.canvasWidth, height: options.canvasHeight });
 
-    if (options.centered) {
-        var auxposx = (options.canvasWidth - ((options.columns * options.cellWidth) + (options.columns * options.colMargin))) / 2;
-        var auxposy = (options.canvasHeight - ((options.rows * options.cellHeight) + (options.rows * options.rowMargin))) / 2;
-        options.xMargin = auxposx;
-        options.yMargin = auxposy;
-    }
-
-    clearCanvas(ctx, { width: options.canvasWidth, height: options.canvasHeight });
-
-    for (var i = 0; i < options.columns; i++) {
-        for (var j = 0; j < options.rows; j++) {
-            xPosition = (options.xMargin || 0) + (i * (options.cellWidth + options.colMargin));
-            yPosition = (options.yMargin || 0) + (j * (options.cellHeight + options.rowMargin));
-            ctx.rect(xPosition, yPosition, options.cellWidth, options.cellHeight);
-            ctx.stroke();
+        for (var i = 0; i < options.columns; i++) {
+            for (var j = 0; j < options.rows; j++) {
+                xPosition = (options.xMargin || 0) + (i * (options.cellWidth + options.colMargin));
+                yPosition = (options.yMargin || 0) + (j * (options.cellHeight + options.rowMargin));
+                ctx.rect(xPosition, yPosition, options.cellWidth, options.cellHeight);
+                ctx.stroke();
+            }
         }
     }
+
 }
 
 function clearCanvas(context, canvas) {
@@ -55,4 +60,9 @@ function drawVerticalMargins(ctx, canvas, margin) {
     ctx.moveTo(0, 100);
     ctx.lineTo(400, 100);
     ctx.stroke();
+}
+
+function isAllSet(opts){
+    return opts.cellHeight && opts.cellHeight && opts.canvasHeight && 
+    opts.canvasWidth && opts.rows && opts.columns;
 }
