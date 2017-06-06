@@ -8,8 +8,7 @@
 </head>
 
 <body>
-    <div class="container">
-        <h2 class="text-center">Ejemplo</h2>
+    <div class="container" style="margin-top: 5%">
         <div class="row">
             <div class="col-md-3">
                 <div class="panel panel-primary">
@@ -35,21 +34,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">Canvas</div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="form-group col-xs-6">
-                                <label for="">Largo</label>
-                                <input id="canvasWidth" class="form-control" type="number" min="1" onchange="enviar()"/>
-                            </div>
-                            <div class="form-group col-xs-6">
-                                <label for="">Ancho</label>
-                                <input id="canvasHeight" class="form-control" type="number" min="1" onchange="enviar()"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               
                 <div class="panel panel-danger">
                     <div class="panel-heading">Dibujar</div>
                     <div class="panel-body">
@@ -74,15 +59,22 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-9" style="width:800px" id="contenedor">
                 <div class="row">
                     <div class="col-md-12 text-center">
-
+                        <input id="canvasWidth" type="number" min="1" onchange="enviar()" style="width: 50px; border:2px solid #1E88E5; margin-left: 30%" />
                     </div>
                     <div class="col-md-12">
-
-                        <canvas id="myCanvas" width="800" height="500" style="border:1px solid #d3d3d3;">
+                        <div class="row">
+                            <div class="col-md-1">
+                                 <input id="canvasHeight" type="number" min="1" onchange="enviar()" style="width: 50px; border: 2px solid #D81B60"/>
+                            </div>
+                            <div class="col-md-11">
+                            <canvas id="myCanvas" width="800" height="500" style="border:1px solid #d3d3d3;border-top:3px solid #1E88E5; border-left: 3px solid #D81B60">
                             Your browser does not support the HTML5 canvas tag.</canvas>
+                            </div>
+                        </div>
+                      
                     </div>
                 </div>
 
@@ -113,6 +105,7 @@
             var canvas = document.getElementById("myCanvas");
             canvas.width = parseInt(document.getElementById('canvasWidth').value);
             canvas.height = parseInt(document.getElementById('canvasHeight').value);
+            $('#contenedor').width(canvas.width);
         }
         function generarGrid() {
             var opciones = {};
