@@ -23,39 +23,48 @@ function generateCanvas(canvasId, options) {
     var ctx = c.getContext("2d");
     var xPosition;
     var yPosition;
-   
+    var auxPosX = 0;
+    var auxPosY = 0;
+
     if (isAllSet(options)) {
         clearCanvas(ctx, { width: options.canvasWidth, height: options.canvasHeight });
         if (options.centered) {
-            var auxposx = (options.canvasWidth - ((options.columns * options.cellWidth) + ((options.columns - 1) * options.colMargin))) / 2;
-            var auxposy = (options.canvasHeight - ((options.rows * options.cellHeight) + ((options.rows - 1) * options.rowMargin))) / 2;
-            options.leftMargin = auxposx;
-            options.topMargin = auxposy;
-        } else {
-            /** Drawing margins **/
-            if(options.leftMargin)
-                drawVerticalMargin(ctx, options.canvasWidth, options.canvasHeight, options.leftMargin, '#7B1FA2', 'left');
-            if(options.rightMargin)
-                drawVerticalMargin(ctx, options.canvasWidth, options.canvasHeight, options.rightMargin, '#7B1FA2', 'right');
-            if(options.topMargin)
-                drawHorizontalMargin(ctx, options.canvasWidth, options.canvasHeight, options.topMargin, '#009688', 'top');
-            if(options.bottomMargin)
-                drawHorizontalMargin(ctx, options.canvasWidth, options.canvasHeight, options.bottomMargin,'#009688', 'bottom');
-    
+            var totalWidth = options.canvasWidth - (options.leftMargin || 0) - (options.rightMargin || 0);
+            var totalHeight = options.canvasHeight - (options.topMargin || 0) - (options.bottomMargin || 0);
+            auxPosX = (totalWidth - ((options.columns * options.cellWidth) + ((options.columns - 1) * options.colMargin))) / 2;
+            auxPosY = (totalHeight - ((options.rows * options.cellHeight) + ((options.rows - 1) * options.rowMargin))) / 2;
         }
+
+        /** Drawing margins **/
+        if (options.leftMargin)
+            drawVerticalMargin(ctx, options.canvasWidth, options.canvasHeight, options.leftMargin, '#7B1FA2', 'left');
+        if (options.rightMargin)
+            drawVerticalMargin(ctx, options.canvasWidth, options.canvasHeight, options.rightMargin, '#7B1FA2', 'right');
+        if (options.topMargin)
+            drawHorizontalMargin(ctx, options.canvasWidth, options.canvasHeight, options.topMargin, '#009688', 'top');
+        if (options.bottomMargin)
+            drawHorizontalMargin(ctx, options.canvasWidth, options.canvasHeight, options.bottomMargin, '#009688', 'bottom');
 
         for (var i = 0; i < options.columns; i++) {
             for (var j = 0; j < options.rows; j++) {
-                xPosition = (options.leftMargin || 0) + (i * (options.cellWidth + options.colMargin));
-                yPosition = (options.topMargin || 0) + (j * (options.cellHeight + options.rowMargin));
+                xPosition = (options.leftMargin || 0) + auxPosX + (i * (options.cellWidth + options.colMargin));
+                yPosition = (options.topMargin || 0) + auxPosY + (j * (options.cellHeight + options.rowMargin));
                 ctx.rect(xPosition, yPosition, options.cellWidth, options.cellHeight);
                 ctx.stroke();
             }
         }
+
     }
 
 }
 
+/**
+ * Clear canvas
+ * @param {RenderingContext} context - canvas context
+ * @param {object} canvas - canvas properties
+ * @param {string} canvas.width - canvas width 
+ * @param {string} canvas.height - canvas width 
+ */
 function clearCanvas(context, canvas) {
     context.clearRect(0, 0, canvas.width, canvas.height);
     var w = canvas.width;
@@ -64,6 +73,15 @@ function clearCanvas(context, canvas) {
     context.beginPath();
 }
 
+/**
+ * Draw vertical margin on canvas
+ * @param {RenderingContext} ctx - canvas context
+ * @param {number} canvasWidth - canvas width
+ * @param {number} canvasHeight - canvas height 
+ * @param {number} xMargin  - x axis margin
+ * @param {string} hexColor - hex color for stroke
+ * @param {string} type  
+ */
 function drawVerticalMargin(ctx, canvasWidth, canvasHeight, xMargin, hexColor, type) {
     if (type === 'right') xMargin = canvasWidth - xMargin;
     console.info('vertical')
@@ -79,11 +97,18 @@ function drawVerticalMargin(ctx, canvasWidth, canvasHeight, xMargin, hexColor, t
     ctx.strokeStyle = '#000000';
     ctx.setLineDash([]);
 }
-
+/**
+ * Draw Horizontal margin on canvas
+ * @param {RenderingContext} ctx 
+ * @param {number} canvasWidth 
+ * @param {number} canvasHeight 
+ * @param {number} yMargin 
+ * @param {string} hexColor 
+ * @param {string} type 
+ */
 function drawHorizontalMargin(ctx, canvasWidth, canvasHeight, yMargin, hexColor, type) {
-    //console.log($('canvasWidth').value)
     if (type === 'bottom') yMargin = canvasHeight - yMargin;
-       console.info('horizontal')
+    console.info('horizontal')
     console.log(0 + ',' + yMargin);
     console.log(canvasWidth + ',' + yMargin);
 
@@ -98,7 +123,7 @@ function drawHorizontalMargin(ctx, canvasWidth, canvasHeight, yMargin, hexColor,
     ctx.setLineDash([]);
 }
 
-function isAllSet(opts){
-    return opts.cellHeight && opts.cellHeight && opts.canvasHeight && 
-    opts.canvasWidth && opts.rows && opts.columns;
+function isAllSet(opts) {
+    return opts.cellHeight && opts.cellHeight && opts.canvasHeight &&
+        opts.canvasWidth && opts.rows && opts.columns;
 }
