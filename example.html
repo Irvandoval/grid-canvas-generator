@@ -59,25 +59,24 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-9"  id="contenedor">
-                <div class="row">
+            <div class="col-md-9"  >
+                <div class="row" id="contenedor">
                     <div class="col-md-12">
-                         <input id="topMargin" type="number" min="1" onchange="enviar()" style="width: 50px; border:2px solid #009688;" />
                         <input  id="canvasWidth" type="number" min="1" onchange="enviar()" style="width: 50px; border:2px solid #1E88E5;" />
+                         <input id="topMargin" type="number" min="1" onchange="enviar()" style="width: 50px; border:2px solid #009688;  display: none"/>
                     </div>
                     <div class="col-md-1">
                          <input id="canvasHeight" type="number" min="1" onchange="enviar()" style="width: 50px; border: 2px solid #D81B60;"/>
-                         <input id="leftMargin" type="number" min="1" onchange="enviar()" style="width: 50px; border:2px solid #7B1FA2;" />
+                         <input id="leftMargin" type="number" min="1" onchange="enviar()" style="width: 50px; border:2px solid #7B1FA2; display: none" />
                     </div>
-                    <div class="col-md-10" style="overflow:auto;">
+                    <div class="col-md-11" style="overflow:auto;">
                          <canvas id="myCanvas" width="800" height="500" style="border:1px solid #d3d3d3;border-top:3px solid #1E88E5; border-left: 3px solid #D81B60">
                             Your browser does not support the HTML5 canvas tag.</canvas>
                     </div>
-                    <div class="col-md-1">
-                         <input id="rightMargin" type="number" min="1" onchange="enviar()" style="width: 50px; border:2px solid #7B1FA2;" />
-                    </div>
+                    
                     <div class="col-md-12">
-                                <input id="bottomMargin" type="number" min="1" onchange="enviar()" style="width: 50px; border:2px solid #009688;" />
+                        <input id="bottomMargin" type="number" min="1" onchange="enviar()" style="width: 50px; border:2px solid #009688;  display: none" />
+                        <input id="rightMargin" type="number" min="1" onchange="enviar()" style="width: 50px; border:2px solid #7B1FA2; position: absolute;  display: none" />
                     </div>
                 </div>
             </div>
@@ -99,13 +98,40 @@
 
         function enviar() {
             setCabida();
-            generarGrid();
+            if(document.getElementById('canvasWidth').value && document.getElementById('canvasHeight').value){
+                  $('#topMargin').show();
+                  $('#bottomMargin').show();
+                  $('#rightMargin').show();
+                  $('#leftMargin').show();
+                 generarGrid();
+            }
+           
         };
         function setCanvasSize() {
             var canvas = document.getElementById("myCanvas");
             canvas.width = parseInt(document.getElementById('canvasWidth').value);
             canvas.height = parseInt(document.getElementById('canvasHeight').value);
-           //$('#contenedor').width(canvas.width);
+            console.log($('#contenedor').width())
+            /**Calculamos margenes de los inputs alrededor del canvas**/
+            var auxMargin = canvas.width / 2;
+           
+            if(canvas.width < 800){
+                console.log('entra')
+                 $('#canvasWidth').css('margin-left', (auxMargin/4) + 'px');
+                 $('#topMargin').css('margin-left', (auxMargin - (auxMargin/4)) + 'px');
+                 $('#bottomMargin').css('margin-left', (auxMargin + 55)  + 'px');
+                  $('#rightMargin').css('margin-left',  (auxMargin) + 'px');
+            } else {
+                console.log('entrax')
+                 $('#topMargin').css('margin-left', '345px');
+                 $('#bottomMargin').css('margin-left','400px'); 
+                 $('#rightMargin').css('margin-left', '455px');
+            } 
+           
+            auxMargin = canvas.height / 2;
+            $('#leftMargin').css('margin-top', (auxMargin) + 'px');
+            $('#rightMargin').css('bottom', (auxMargin) + 'px');
+             
         }
         function generarGrid() {
             var opciones = {};
@@ -135,6 +161,7 @@
                 $('#cabida').val(parseInt(document.getElementById('rows').value * parseInt(document.getElementById('columns').value)));
             }
         }
+
     </script>
 </body>
 
